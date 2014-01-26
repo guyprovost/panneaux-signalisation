@@ -16,7 +16,7 @@ panneaux-signalisation
 //    - Géolocalisation de l'utilisateur
 //    - Intégration de la boussole (Compass API)
 //
-// Tous les plugins Cordova sont activés, la bonne pratique recommande de n'activer que ceux utilisés
+// Tous les plugins Cordova sont activés, la bonne pratique recommande de n'activer que ceux utilisés.
 // ------------------------------------------------------------------------------------------------------
 // Documentation Cordova: http://cordova.apache.org/docs/en/3.2.0/index.html
 // Documentation Telerik Platform : http://docs.telerik.com/platform
