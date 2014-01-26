@@ -1,7 +1,9 @@
 // ------------------------------------------------------------------------------------------------------
 // Démo pour le dévelopement d'applications hybride utilisant Cordova.
 // L'environnement de développement est Telerik Platform (anciennement Icenium), mais tout le projet 
-// pourrait facilement être utilisé dans Adobe PhoneGap / PhoneBuild dans un environnement de votre choix
+// pourrait facilement être utilisé dans Adobe PhoneGap / PhoneBuild dans un environnement de votre 
+// choix. L'interface, html et css , sont à leurs plus simple expression afin de mettre en évidence
+// les fonctions de Cordova.
 // ------------------------------------------------------------------------------------------------------
 // Les fonctions de l'applications demo sont:
 //    - Gestion de l'état de connectivité du périphérique (offline / online)
@@ -43,8 +45,7 @@ var app = {
     
     // Évènement "deviceready", indique que Cordova est chargé et prêt. Tout le code
     // d'initialisation devrait se trouver ici.
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicity call 'app.receivedEvent(...);'
+    // -------------- 
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
         navigator.splashscreen.hide();
@@ -54,15 +55,22 @@ var app = {
        
     }, 
     
+    // Lorsque l'évènement offline survient, nous informons l'interface
+    // --------------
     onOffline: function() {
-      app.receivedEvent('offline');  
+      app.receivedEvent('offline');
+      setUIState(0);
     },
     
+    // Lorsque l'évènement online survient, nous informons l'interface
+    // --------------
     onOnline: function() {
-      app.receivedEvent('online');  
+      app.receivedEvent('online');
+      setUIState(1);  
     },
     
     // Logging des évènements dans la console (utile pour debbugage)
+    // --------------
     receivedEvent: function(id) {
         
         console.log('Évènement reçu: ' + id);
@@ -70,6 +78,25 @@ var app = {
     }
    
 };
+
+// ----------------------------------------------------------------------------------------------------
+// Méthodes de l'application. Pourrait être dans un ou plusieurs autres fichiers.
+// Elle sont toutes dans un seul et même fichier pour raison de simplicité.
+// ----------------------------------------------------------------------------------------------------
+
+// Affichage du label Online/Offline. 0 = Offline, autre = Online
+// --------------
+function setUIState(state) {
+    
+    if (state === 0)
+    {
+        $("#onlineState").html('<span class="label label-danger">Offline</span>');
+    }
+    else
+    {
+        $("#onlineState").html('<span class="label label-success">Online</span>');
+    }
+}
 
 // Gestion de l'évènement de demande de chargement des panneaux
 // de signalisation (bouton "Panneaux" cliqué)

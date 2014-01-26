@@ -15,6 +15,12 @@ html, body
 
 #ctrls
 {
-    margin-top: 15px;
+    margin-top: 10px;
     text-align: center;
+}
+
+#onlineState 
+{
+   float: right;
+   margin-right: 5px;
 }
