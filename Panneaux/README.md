@@ -12,3 +12,4 @@ L'application "Panneaux" permet de:
 - Afficher une carte via l'API de Google Maps V3
 - Afficher un mashup pour emplacement des panneaux (closure)
 - Géolocalisation de l'utilisateur
+- Intégration de l'API pour la boussole (Compass API)
