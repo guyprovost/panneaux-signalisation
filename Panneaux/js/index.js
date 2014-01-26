@@ -11,6 +11,7 @@
 //    - Affichage d'une carte via l'API de Google Maps V3
 //    - Affichage de mashup pour emplacement des panneaux (closure)
 //    - Géolocalisation de l'utilisateur
+//    - Intégration de la boussole (Compass API)
 //
 // Tous les plugins Cordova sont activés, la bonne pratique recommande de n'activer que ceux utilisés
 // ------------------------------------------------------------------------------------------------------
@@ -24,6 +25,7 @@
 var VQurl = "parco.txt";    // Simili appel à un service REST. Pour le moment, les parcomètres sont dans un fichier texte
 var map;                    // Objet Google Map
 var maPositionMarker;       // Pour représenter la géolocalisation de l'utilisateur
+var watchBoussoleID;        // 
 
 // Objet app représentant l'application elle même
 // --------------
@@ -50,9 +52,9 @@ var app = {
         app.receivedEvent('deviceready');
         navigator.splashscreen.hide();
         initializeMap();
+        initializeBoussole();
         $("#btnGetPanneaux").click(function(){onGetPanneaux()});
-        $("#btnLocate").click(function(){onLocate()});
-       
+        $("#btnLocate").click(function(){onLocate()});       
     }, 
     
     // Lorsque l'évènement offline survient, nous informons l'interface
@@ -158,6 +160,15 @@ function initializeMap() {
    
 }
 
+// Initialisation de la boussole, sera mis à jour à chaque demi-seconde
+// ----------------
+function initializeBoussole() {
+    // Update compass every 3 seconds
+        var options = { frequency: 500 };
+
+        watchBoussoleID = navigator.compass.watchHeading(onBoussoleSuccess, onBoussoleError, options);
+}
+
 // Gestion de l'évènement de demande de localisation (bouton "Localisation")
 // ----------------
 function onLocate()
@@ -198,4 +209,47 @@ function onGeoLocationSucces(location)
                                         });
 }
 
+// Gestion de l'évènement boussole (à chaque 500 ms, ou la valeur de l'option frequency
+// --------------
+function onBoussoleSuccess(direction)
+{
+    
+    $('#boussoleDirection').text(getDirectionString(direction.magneticHeading));
+}
+
+// Gestion erreur pour la boussole
+// -------------
+function onBoussoleError(boussoleError)
+{
+    alert('Erreur boussole: ' + boussoleError.code);    
+}
+
+// Retourne une chaine de caractères représentant la direction (N, NE, SE, etc)
+// rawData contient la valeur en degrés de la direction courante (0 à 360)
+// -------------
+function getDirectionString(rawData)
+{
+    strDirection = "";
+    
+    if(rawData >23 && rawData <= 67)
+    {
+              strDirection = "NE";
+        } else if(rawData >68 && rawData <= 112){
+              strDirection = "E";
+        } else if(rawData >113 && rawData <= 167){
+              strDirection = "SE";
+        } else if(rawData >168 && rawData <= 202){
+              strDirection = "S";
+        } else if(rawData >203 && rawData <= 247){
+              strDirection = "SO";
+        } else if(rawData >248 && rawData <= 293){
+              strDirection = "O";
+        } else if(rawData >294 && rawData <= 337){
+              strDirection = "NO";
+        } else if(rawData >=338 || rawData <= 22){
+              strDirection = "N";
+    }
+    
+    return strDirection;
+}
 

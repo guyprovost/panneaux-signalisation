@@ -24,3 +24,20 @@ html, body
    float: right;
    margin-right: 5px;
 }
+
+
+#direction
+{
+    margin-left: 5px;
+    width: 50px;
+}
+
+#boussoleDirection
+{
+    display: block;
+}
+
+#btnLocate
+{
+    margin-left: 12px;
+}
