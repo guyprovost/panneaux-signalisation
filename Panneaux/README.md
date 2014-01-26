@@ -10,13 +10,9 @@ panneaux-signalisation
  Les fonctions de l'applications demo sont:
 
   - Gestion de l'état de connectivité du périphérique (offline / online)
-
   - Chargement d'un jeu de données (panneaux) via un fichier local (parsing JSON)- Affichage d'une carte via l'API de Google Maps V3
-
   - Affichage de mashup pour emplacement des panneaux avec handler (closure)
-
   - Géolocalisation de l'utilisateur
-
   - Intégration de la boussole (Compass API)
 
 
