@@ -1,21 +1,7 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+var VQurl = "parco.txt";
+var map;
+var maPositionMarker;
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -27,6 +13,8 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.addEventListener('deviceready', initializeMap, false);
+        
     },
     // deviceready Event Handler
     //
@@ -35,16 +23,97 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
         navigator.splashscreen.hide();
-    },
+        $("#btnGetPanneaux").click(function(){getPanneaux()});
+        $("#btnLocate").click(function(){onLocate()});
+       
+    }, 
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
+        
         console.log('Received Event: ' + id);
+              
     }
+   
 };
+
+
+function getPanneaux() {
+   var JSdata;
+    $.get(VQurl, function (data) {
+        JSdata = $.parseJSON(data);
+        
+
+        for (var i = 0; i < JSdata.length; i++) {
+            
+            pos = new google.maps.LatLng(JSdata[i].lat, JSdata[i].long);
+            panneauMrk = new google.maps.Marker(
+                                                {
+                                                    position: pos,
+                                                    map: map,
+                                                    title: 'Panneau ' + JSdata[i].id
+                                                });
+
+            (function (i, panneauMrk) {
+
+                google.maps.event.addListener(panneauMrk, 'click', function () {
+
+                    var infoWindow = new google.maps.InfoWindow(
+                    {
+                        content: 'Panneau ' + JSdata[i].id
+                    });
+
+                    infoWindow.open(map, panneauMrk);
+
+                });
+
+            })(i, panneauMrk);
+
+        }
+
+    }); 
+}
+
+function initializeMap() {
+    
+    var mapOptions = {
+        center: new google.maps.LatLng(46.8050949, -71.2267805),
+        zoom: 16,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("map"), mapOptions);
+   
+}
+
+function onLocate()
+{
+    navigator.geolocation.getCurrentPosition(onGeoLocationSucces, onGeoLocationError);
+}
+
+function onGeoLocationError(error)
+{
+   alert('code: '    + error.code    + '\n' +
+         'message: ' + error.message + '\n');
+}
+
+function onGeoLocationSucces(location) 
+{
+
+    var maPlace = new google.maps.LatLng(location.coords.latitude, location.coords.longitude);
+    map.panTo(maPlace);
+
+    var position = maPlace;
+    var image = "img/bluedot.png";
+
+    if (maPositionMarker)
+    {
+        maPositionMarker.setMap(null);    
+    }
+    maPositionMarker = new google.maps.Marker(
+                                        {
+                                            position: position,
+                                            map: map,
+                                            icon: image
+                                        });
+}
+
+
