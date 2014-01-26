@@ -18,11 +18,9 @@ panneaux-signalisation
 
  Tous les plugins Cordova sont activés, la bonne pratique recommande de n'activer que ceux utilisés.
 
- Documentation Cordova: http://cordova.apache.org/docs/en/3.2.0/index.html
-
- Documentation Telerik Platform : http://docs.telerik.com/platform
-
- Documentation GoogleMaps: https://developers.google.com/maps/documentation/javascript/reference?hl=FR
+  - Documentation Cordova: http://cordova.apache.org/docs/en/3.2.0/index.html
+  - Documentation Telerik Platform : http://docs.telerik.com/platform
+  - Documentation GoogleMaps: https://developers.google.com/maps/documentation/javascript/reference?hl=FR
 
  Guy Provost, Janvier 2014
  ------------------------------------------------------------------------------------------------------
